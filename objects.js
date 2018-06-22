@@ -85,3 +85,32 @@ export let rooms = {
         }
     }
 };
+
+export let roomInventory = {
+    lowerCaseItemsList: ["seven days", "ladle", "granola", "canadian quarter"],
+    properlyCapitalizedItemsList: ["Seven Days", "a ladle", "a scoop of granola", "Canadian quarter"],
+    lowerCaseRoomsList: ["mainStreet182", "foyer", "secondFloor", "greenMountainSemiproductive", "thirdFloor"],
+    properlyCapitalizedRoomsList: ["182 Main Street", "the foyer", "the second floor", "Green Mountain Semiproductive", "the third floor"],
+    mainStreet182: [],
+    foyer: ["seven days"],
+    secondFloor: [],
+    greenMountainSemiproductive: ["ladle", "scoop of granola", "scoop of granola", "scoop of granola", "scoop of granola", "scoop of granola"],
+    thirdFloor: [],
+    mainStreetSidewalk: ["Canadian quarter"]
+};
+
+export let currentInventory = {
+    inventory: [],
+    lowerCaseInventory: []
+}
+
+export let userInventory = {
+    checkInventoryInputs: ["check inventory", "inventory", "log inventory", "i"],
+    takeItemInputs: ["take", "take item", "pick up"],
+    dropItemInputs: ["drop", "drop item"],
+};
+
+export let itemTakeMessages = {
+    "seven days": "You pick up the paper and leaf through it looking for comics and ignoring the articles, just like everybody else does.",
+    "ladle": "You pick up the ladle."
+}

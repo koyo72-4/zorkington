@@ -1,6 +1,6 @@
 // import { rooms, roomInventory, currentInventory, userInventory, itemTakeMessages, changeRoom, mainStreet182, foyer, secondFloor, greenMountainSemiproductive, thirdFloor } from 'zorkingtonForWebCore';
 
-//import { rooms } from './objects.js';
+// import { rooms, roomInventory, currentInventory, userInventory, itemTakeMessages } from 'objects';
 
 let currentInput;
 let currentRoom = "mainStreet182";
@@ -8,6 +8,12 @@ let currentRoom = "mainStreet182";
 let message = document.getElementById('message');
 let textarea = document.getElementsByTagName('textarea')[0];
 let button = document.getElementById('submit');
+
+function addParagraphToMessage(messageString) {
+    let newP = document.createElement('p');
+    newP.textContent = messageString;
+    message.appendChild(newP);
+}
 
 
 textarea.addEventListener('focus', () => {
@@ -47,15 +53,9 @@ function handleClick() {
     let properlyCapitalizedItem = roomInventory.properlyCapitalizedItemsList[lowerCaseItemIndex];
     if (action === "take" && object !== "sign" && object !== "granola") {
         if (currentInventory.lowerCaseInventory.includes(object)) {
-            let newP = document.createElement('p');
-            newP.textContent = "You already have " + properlyCapitalizedItem + " in your inventory.";
-            //message.appendChild(document.createElement('br'));
-            message.appendChild(newP);
+            addParagraphToMessage("You already have " + properlyCapitalizedItem + " in your inventory.");
         } else if (!roomInventory[currentRoom].includes(object)) {
-            let newP = document.createElement('p');
-            newP.textContent = properlyCapitalizedItem + " is not in this room.";
-            //message.appendChild(document.createElement('br'));
-            message.appendChild(newP);
+            addParagraphToMessage(properlyCapitalizedItem + " is not in this room.");
         } else {
             takeItem(object);
         }
@@ -64,10 +64,7 @@ function handleClick() {
             dropItem(object);
         }
     } else if (userInventory.checkInventoryInputs.includes(currentInput)) {
-        let newP = document.createElement('p');
-        newP.textContent = "You are carrying: " + currentInventory.inventory.join(", ");
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage("You are carrying: " + currentInventory.inventory.join(", "));
     } else if (currentRoom === "mainStreet182") {
         mainStreet182();
     } else if (currentRoom === "foyer") {
@@ -94,10 +91,7 @@ function takeItem(item) {
     let lowerCaseItemIndex = roomInventory.lowerCaseItemsList.indexOf(item);
     let properlyCapitalizedItem = roomInventory.properlyCapitalizedItemsList[lowerCaseItemIndex];
     roomInventory[currentRoom].splice(itemIndex, 1);
-    let newP = document.createElement('p');
-    newP.textContent = itemTakeMessages[item];
-    //message.appendChild(document.createElement('br'));
-    message.appendChild(newP);
+    addParagraphToMessage(itemTakeMessages[item]);
     currentInventory.inventory.push(properlyCapitalizedItem);
     currentInventory.lowerCaseInventory.push(item);
     let inventoryDiv = document.getElementById('inventory');
@@ -109,9 +103,7 @@ function takeItem(item) {
         nextInventoryP.textContent = properlyCapitalizedItem;
         inventoryDiv.appendChild(nextInventoryP);
     }
-    let newP2 = document.createElement('p');
-    newP2.textContent = "You have now added " + properlyCapitalizedItem + " to your inventory.";
-    message.appendChild(newP2);
+    addParagraphToMessage("You have now added " + properlyCapitalizedItem + " to your inventory.");
 };
 
 function dropItem(item) {
@@ -121,10 +113,21 @@ function dropItem(item) {
     currentInventory.inventory.splice(itemIndex, 1);
     currentInventory.lowerCaseInventory.splice(itemIndex, 1);
     roomInventory[currentRoom].push(item);
-    let newP = document.createElement('p');
-    newP.textContent = "You have now removed " + properlyCapitalizedItem + " from your inventory.";
-    //message.appendChild(document.createElement('br'));
-    message.appendChild(newP);
+
+    let inventoryDiv = document.getElementById('inventory');
+    let invPs = Array.from(inventoryDiv.children);
+    let invPsContent = invPs.map(invP => {
+        return invP.textContent;
+    });
+    let removedItemIndex = invPsContent.indexOf(properlyCapitalizedItem);
+    inventoryDiv.removeChild(inventoryDiv.children[removedItemIndex]);
+    if (inventoryDiv.children.length === 1) {
+        let nextInventoryP = document.createElement('p');
+        nextInventoryP.textContent = 'currently empty';
+        inventoryDiv.appendChild(nextInventoryP);
+    }
+    console.log(inventoryDiv.children);
+    addParagraphToMessage("You have now removed " + properlyCapitalizedItem + " from your inventory.");
 }
 
 
@@ -263,10 +266,7 @@ function changeRoom(nextRoom) {
         let properlyCapitalizedCurrentRoom = roomInventory.properlyCapitalizedRoomsList[lowerCaseCurrentRoomIndex];
         let lowerCaseNextRoomIndex = roomInventory.lowerCaseRoomsList.indexOf(nextRoom);
         let properlyCapitalizedNextRoom = roomInventory.properlyCapitalizedRoomsList[lowerCaseNextRoomIndex];
-        let newP = document.createElement('p');
-        newP.textContent = "You cannot go to " + properlyCapitalizedNextRoom + " from " + properlyCapitalizedCurrentRoom + ".";
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage("You cannot go to " + properlyCapitalizedNextRoom + " from " + properlyCapitalizedCurrentRoom + ".");
     }
     // currRoomDiv.style.fontWeight = 'bold';
     // setTimeout(() => {
@@ -282,31 +282,16 @@ function mainStreet182() {
         numBer = Number(numArray.join(""));
     }
     if (mainStreet182Actions.readSign.inputs.includes(currentInput)) {
-        let newP = document.createElement('p');
-        newP.textContent = mainStreet182Actions.readSign.result;
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage(mainStreet182Actions.readSign.result);
     } else if (mainStreet182Actions.openDoor.inputs.includes(currentInput)) { 
-        let newP = document.createElement('p');
-        newP.textContent = mainStreet182Actions.openDoor.result;
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage(mainStreet182Actions.openDoor.result);
     } else if (mainStreet182Actions.takeSign.inputs.includes(currentInput)) {
-        let newP = document.createElement('p');
-        newP.textContent = mainStreet182Actions.takeSign.result;
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage(mainStreet182Actions.takeSign.result);
     } else if (mainStreet182Actions.lickDoor.inputs.includes(currentInput)) {
-        let newP = document.createElement('p');
-        newP.textContent = mainStreet182Actions.lickDoor.result;
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage(mainStreet182Actions.lickDoor.result);
         //process.exit();
     } else if (typeof numBer === "number" && numBer !== 12345) { 
-        let newP = document.createElement('p');
-        newP.textContent = "Bzzzzt! The door is still locked.";
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage("Bzzzzt! The door is still locked.");
     } else if (currentInput.match(mainStreet182Actions.codeRegEx)) {
         let newP = document.createElement('p');
         newP.textContent = "Success! The door opens. You enter the foyer and the door shuts behind you.";
@@ -316,17 +301,12 @@ function mainStreet182() {
     } else if (mainStreet182Actions.exitFunction.inputs.includes(currentInput)) {
         let newBr = document.createElement('br');
         message.appendChild(newBr);
-        let newP = document.createElement('p');
-        newP.textContent = mainStreet182Actions.exitFunction.result;
-        message.appendChild(newP);
+        addParagraphToMessage(mainStreet182Actions.exitFunction.result);
         setTimeout(() => {
             window.location.assign(window.location);
         }, 1500);
     } else {
-        let newP = document.createElement('p');
-        newP.textContent = "Sorry, I don't understand " + currentInput + ".";
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage("Sorry, I don't understand " + currentInput + ".");
     }
 }
 
@@ -337,10 +317,7 @@ function foyer() {
     } else if (foyerActions.goUp.inputs.includes(currentInput)) {
         changeRoom("secondFloor");
     } else {
-        let newP = document.createElement('p');
-        newP.textContent = "Sorry, I don't understand " + currentInput + ".";
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage("Sorry, I don't understand " + currentInput + ".");
     }
 }
 
@@ -353,10 +330,7 @@ function secondFloor() {
     } else if (secondFloorActions.goUp.inputs.includes(currentInput)) {
         changeRoom("thirdFloor");
     } else {
-        let newP = document.createElement('p');
-        newP.textContent = "Sorry, I don't understand " + currentInput + ".";
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage("Sorry, I don't understand " + currentInput + ".");
     }
 }
 
@@ -365,45 +339,34 @@ function greenMountainSemiproductive() {
     if (greenMountainActions.goBack.inputs.includes(currentInput)) {
         changeRoom("secondFloor");
     } else if (greenMountainActions.hello.inputs.includes(currentInput)) {
-        let newP = document.createElement('p');
-        newP.textContent = greenMountainActions.hello.result;
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage(greenMountainActions.hello.result);
     } else if (greenMountainActions.eatGranola.inputs.includes(currentInput)) {
-        let newP = document.createElement('p');
-        newP.textContent = greenMountainActions.eatGranola.result;
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage(greenMountainActions.eatGranola.result);
     } else if (greenMountainActions.takeGranola.inputs.includes(currentInput)) {
         if (currentInventory.inventory.includes("a ladle")) {
             if (roomInventory.greenMountainSemiproductive.length > 0) {
                 roomInventory.greenMountainSemiproductive.pop();
                 currentInventory.inventory.push("a scoop of granola");
-                let newP = document.createElement('p');
-                newP.textContent = greenMountainActions.takeGranola.result;
-                //message.appendChild(document.createElement('br'));
-                message.appendChild(newP);
-                let newP2 = document.createElement('p');
-                newP2.textContent = "You have now added a scoop of granola to your inventory.";
-                //message.appendChild(document.createElement('br'));
-                message.appendChild(newP2);
+                addParagraphToMessage(greenMountainActions.takeGranola.result);
+
+                let inventoryDiv = document.getElementById('inventory');
+                let inventoryP = inventoryDiv.children[1];
+                if (inventoryP.textContent === 'currently empty') {
+                    inventoryP.textContent = "a scoop of granola";
+                } else {
+                    let nextInventoryP = document.createElement('p');
+                    nextInventoryP.textContent = "a scoop of granola";
+                    inventoryDiv.appendChild(nextInventoryP);
+                }
+                addParagraphToMessage("You have now added a scoop of granola to your inventory.");
             } else {
-                let newP = document.createElement('p');
-                newP.textContent = "Sorry, but you have already taken your fair share of granola. The glares of those around you convince you to put down your ladle.";
-                //message.appendChild(document.createElement('br'));
-                message.appendChild(newP);
+                addParagraphToMessage("Sorry, but you have already taken your fair share of granola. The glares of those around you convince you to put down your ladle.");
             }
         } else {
-            let newP = document.createElement('p');
-            newP.textContent = "You need a tool to scoop out the granola.";
-            //message.appendChild(document.createElement('br'));
-            message.appendChild(newP);
+            addParagraphToMessage("You need a tool to scoop out the granola.");
         }
     } else {
-        let newP = document.createElement('p');
-        newP.textContent = "Sorry, I don't understand " + currentInput + ".";
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage("Sorry, I don't understand " + currentInput + ".");
     }
 }
 
@@ -412,10 +375,7 @@ function thirdFloor() {
     if (thirdFloorActions.goBack.inputs.includes(currentInput)) {
         changeRoom("secondFloor");
     } else {
-        let newP = document.createElement('p');
-        newP.textContent = "Sorry, I don't understand " + currentInput + ".";
-        //message.appendChild(document.createElement('br'));
-        message.appendChild(newP);
+        addParagraphToMessage("Sorry, I don't understand " + currentInput + ".");
     }
 }
 
