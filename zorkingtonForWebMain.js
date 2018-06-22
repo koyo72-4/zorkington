@@ -15,6 +15,13 @@ function addParagraphToMessage(messageString) {
     message.appendChild(newP);
 }
 
+function addChevron() {
+    let chevron = document.createElement('i');
+    chevron.className = 'fas fa-chevron-right fa-xs';
+    chevron.style.display = 'inline';
+    chevron.style.opacity = '0.5';
+    return chevron;
+}
 
 textarea.addEventListener('focus', () => {
     textarea.value = '';
@@ -36,12 +43,8 @@ function handleClick() {
     inputP.textContent = ' ' + input;
     inputP.className = 'inputP';
     message.appendChild(document.createElement('br'));
-    let chevron = document.createElement('i');
-    chevron.className = 'fas fa-chevron-right fa-xs';
-    chevron.style.display = 'inline';
-    chevron.style.opacity = '0.5';
     inputP.style.display = 'inline';
-    message.appendChild(chevron);
+    message.appendChild(addChevron());
     message.appendChild(inputP);
 
     let userInput = input.toString().trim().toLowerCase();
