@@ -1,5 +1,7 @@
 // import { rooms, roomInventory, currentInventory, userInventory, itemTakeMessages, changeRoom, mainStreet182, foyer, secondFloor, greenMountainSemiproductive, thirdFloor } from 'zorkingtonForWebCore';
 
+//import { rooms } from './objects.js';
+
 let currentInput;
 let currentRoom = "mainStreet182";
 
@@ -25,10 +27,15 @@ button.addEventListener('click', handleClick);
 function handleClick() {
     let input = textarea.value;
     let inputP = document.createElement('p');
-    inputP.textContent = input;
+    inputP.textContent = ' ' + input;
     inputP.className = 'inputP';
     message.appendChild(document.createElement('br'));
-
+    let chevron = document.createElement('i');
+    chevron.className = 'fas fa-chevron-right fa-xs';
+    chevron.style.display = 'inline';
+    chevron.style.opacity = '0.5';
+    inputP.style.display = 'inline';
+    message.appendChild(chevron);
     message.appendChild(inputP);
 
     let userInput = input.toString().trim().toLowerCase();
@@ -261,6 +268,10 @@ function changeRoom(nextRoom) {
         //message.appendChild(document.createElement('br'));
         message.appendChild(newP);
     }
+    // currRoomDiv.style.fontWeight = 'bold';
+    // setTimeout(() => {
+    //     currRoomDiv.style.fontWeight = 'normal';
+    // }, 1000);
 };
 
 function mainStreet182() {
