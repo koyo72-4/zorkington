@@ -23,6 +23,15 @@ function addChevron() {
     return chevron;
 }
 
+function displayRoom() {
+    let lowerCaseRoomIndex = roomInventory.lowerCaseRoomsList.indexOf(currentRoom);
+    let properlyCapitalizedRoom = roomInventory.properlyCapitalizedRoomsList[lowerCaseRoomIndex];
+    let currRoomDiv = document.getElementById('current-room');
+    let currRoomP = currRoomDiv.children[1];
+    currRoomP.textContent = properlyCapitalizedRoom;
+    currRoomDiv.appendChild(currRoomP);
+}
+
 textarea.addEventListener('focus', () => {
     textarea.value = '';
 });
@@ -79,12 +88,7 @@ function handleClick() {
     } else if (currentRoom === "thirdFloor") {
         thirdFloor();
     }
-    let lowerCaseRoomIndex = roomInventory.lowerCaseRoomsList.indexOf(currentRoom);
-    let properlyCapitalizedRoom = roomInventory.properlyCapitalizedRoomsList[lowerCaseRoomIndex];
-    let currRoomDiv = document.getElementById('current-room');
-    let currRoomP = currRoomDiv.children[1];
-    currRoomP.textContent = properlyCapitalizedRoom;
-    currRoomDiv.appendChild(currRoomP);
+    displayRoom();
     message.scrollTop = message.scrollHeight;
 }
 
