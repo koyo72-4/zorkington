@@ -32,6 +32,12 @@ function displayRoom() {
     currRoomDiv.appendChild(currRoomP);
 }
 
+// function capitalizeItem(item) {
+//     let itemIndex = roomInventory[currentRoom].indexOf(item);
+//     let lowerCaseItemIndex = roomInventory.lowerCaseItemsList.indexOf(item);
+//     let properlyCapitalizedItem = roomInventory.properlyCapitalizedItemsList[lowerCaseItemIndex];
+// }
+
 textarea.addEventListener('focus', () => {
     textarea.value = '';
 });
@@ -63,18 +69,21 @@ function handleClick() {
     let object = words.join(' ');
     let lowerCaseItemIndex = roomInventory.lowerCaseItemsList.indexOf(object);
     let properlyCapitalizedItem = roomInventory.properlyCapitalizedItemsList[lowerCaseItemIndex];
+
     if (action === "take" && object !== "sign" && object !== "granola") {
         if (currentInventory.lowerCaseInventory.includes(object)) {
             addParagraphToMessage("You already have " + properlyCapitalizedItem + " in your inventory.");
         } else if (!roomInventory[currentRoom].includes(object)) {
-            addParagraphToMessage(properlyCapitalizedItem + " is not in this room.");
+            if (properlyCapitalizedItem) {
+                addParagraphToMessage(properlyCapitalizedItem + " is not in this room.");
+            } else {
+                addParagraphToMessage(object + " is not in this room.");
+            }
         } else {
             takeItem(object);
         }
-    } else if (currentInventory.lowerCaseInventory.includes(object)) {
-        if (action === "drop") {
-            dropItem(object);
-        }
+    } else if (action === "drop" && currentInventory.lowerCaseInventory.includes(object)) {
+        dropItem(object);
     } else if (userInventory.checkInventoryInputs.includes(currentInput)) {
         addParagraphToMessage("You are carrying: " + currentInventory.inventory.join(", "));
     } else if (currentRoom === "mainStreet182") {
@@ -88,10 +97,10 @@ function handleClick() {
     } else if (currentRoom === "thirdFloor") {
         thirdFloor();
     }
+
     displayRoom();
     message.scrollTop = message.scrollHeight;
 }
-
 
 function takeItem(item) {
     let itemIndex = roomInventory[currentRoom].indexOf(item);
@@ -223,7 +232,7 @@ let rooms = {
         canChangeTo: ["secondFloor"],
         actions: {
             goBack: {
-                inputs: ["go back", "turn around", "leave", "leave room"]
+                inputs: ["go back", "turn around", "leave", "leave room", "go down", "go down stairs", "go downstairs"]
             }
         }
     }
