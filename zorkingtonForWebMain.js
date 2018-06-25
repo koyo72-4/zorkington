@@ -99,7 +99,7 @@ function handleClick() {
     }
 
     displayRoom();
-    message.scrollTop = message.scrollHeight;
+    message.scrollTop = message.scrollHeight - message.clientHeight;
 }
 
 function takeItem(item) {
