@@ -10,7 +10,7 @@ textarea {
 #message {
     margin: 30px 30px 30px 30px;
     font-size: 23px;
-    border: 3px solid firebrick;
+    border: 3px solid rgba(178, 34, 34, 0.6);
     padding: 5px;
     line-height: 1.25;
     overflow-y: scroll;
@@ -18,9 +18,11 @@ textarea {
 }
 
 h1 {
+    font-family: 'Charmonman', cursive;
     font-size: 40px;
     font-weight: bold;
-    margin: 20px 0 20px 10px;
+    margin: 25px 0 20px 30px;
+    color: rgb(178, 34, 34);
 }
 
 #submit {
