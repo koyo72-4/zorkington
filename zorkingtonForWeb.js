@@ -1,7 +1,3 @@
-// import { rooms, roomInventory, currentInventory, userInventory, itemTakeMessages, changeRoom, mainStreet182, foyer, secondFloor, greenMountainSemiproductive, thirdFloor } from 'zorkingtonForWebCore';
-
-//import { rooms, roomInventory, currentInventory, userInventory, itemTakeMessages } from 'objects';
-
 let currentInput;
 let currentRoom = "mainStreet182";
 
@@ -34,12 +30,6 @@ function displayRoom() {
     currRoomP.textContent = properlyCapitalizedRoom;
     currRoomDiv.appendChild(currRoomP);
 }
-
-// function capitalizeItem(item) {
-//     let itemIndex = roomInventory[currentRoom].indexOf(item);
-//     let lowerCaseItemIndex = roomInventory.lowerCaseItemsList.indexOf(item);
-//     let properlyCapitalizedItem = roomInventory.properlyCapitalizedItemsList[lowerCaseItemIndex];
-// }
 
 // If enter is hit or you click outside the box and click back, any text in the box is cleared.
 textarea.addEventListener('focus', () => {
@@ -275,7 +265,7 @@ let currentInventory = {
 // Commands to interact with user inventory.
 let userInventory = {
     checkInventoryInputs: ["check inventory", "inventory", "log inventory", "i"],
-    takeItemInputs: ["take", "take item", "pick up"],
+    takeItemInputs: ["take", "take item", "get", "pick up"],
     dropItemInputs: ["drop", "drop item"],
 };
 
@@ -302,10 +292,6 @@ function changeRoom(nextRoom) {
         let properlyCapitalizedNextRoom = roomInventory.properlyCapitalizedRoomsList[lowerCaseNextRoomIndex];
         addParagraphToMessage("You cannot go to " + properlyCapitalizedNextRoom + " from " + properlyCapitalizedCurrentRoom + ".");
     }
-    // currRoomDiv.style.fontWeight = 'bold';
-    // setTimeout(() => {
-    //     currRoomDiv.style.fontWeight = 'normal';
-    // }, 1000);
 };
 
 function mainStreet182() {
